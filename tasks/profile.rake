@@ -18,6 +18,8 @@ namespace :profile do
     end
 
     puts ""
+    puts "-" * 80
+    puts ""
 
     if ENV["CI"]
       report.pretty_print(scale_bytes: true, color_output: false, normalize_paths: true)
