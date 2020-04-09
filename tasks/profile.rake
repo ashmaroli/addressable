@@ -3,8 +3,12 @@
 namespace :profile do
   desc "Profile memory allocations"
   task :memory do
-    require "addressable/uri"
     require "memory_profiler"
+    require "addressable/uri"
+    if ENV["IDNA_MODE"] == "pure"
+      Addressable.send(:remove_const, :IDNA)
+      load "addressable/idna/pure.rb"
+    end
 
     report = MemoryProfiler.report do
       3000.times do
@@ -12,6 +16,8 @@ namespace :profile do
         u.normalize
       end
     end
+
+    puts ""
 
     if ENV["CI"]
       report.pretty_print(scale_bytes: true, color_output: false, normalize_paths: true)

@@ -10,6 +10,10 @@ rvm:
 matrix:
   include:
     - rvm: 2.4.9
+      env: IDNA_MODE=native
+      script: bundle exec rake profile:memory
+    - rvm: 2.4.9
+      env: IDNA_MODE=pure
       script: bundle exec rake profile:memory
   allow_failures:
     - rvm: ruby-head
@@ -18,10 +22,5 @@ matrix:
 before_install:
   - sudo apt-get update
   - sudo apt-get install libidn11-dev
-  # https://docs.travis-ci.com/user/languages/ruby/#bundler-20
-  - if [ -n "${BUNDLER_VERSION+x}" ];
-    then
-      gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true;
-      gem uninstall --all --executables bundler || true;
-      gem install bundler -v ${BUNDLER_VERSION};
-    fi
+  - gem update --system --no-document
+  - gem install bundler --no-document
