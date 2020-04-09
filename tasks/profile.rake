@@ -11,7 +11,7 @@ namespace :profile do
     end
 
     report = MemoryProfiler.report do
-      3000.times do
+      30000.times do
         u = Addressable::URI.parse('http://google.com/stuff/../?with_lots=of&params=asdff#!stuff')
         u.normalize
       end
